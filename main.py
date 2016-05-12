@@ -52,12 +52,18 @@ class RezultatHandler(BaseHandler):
             priimek_osebe == "neznanec"
 
         if sporocilo_osebe =="":
-            sporocilo_osebe = self.request.get("polje_sporocilo")
+            vrnjeno = {
+                "ime": ime_osebe,
+                "napaka": "Manjka sporocilo"
+            }
+            self.render_template("hello.html", vrnjeno)
+            return
 
 
         sporocilo = Gosti(ime=ime_osebe, priimek=priimek_osebe, email=email_osebe, sporocilo=sporocilo_osebe)
         sporocilo.put()
 
+        return self.write("Sporocilo srejeto {}".format(sporocilo))
 
 
 class SeznamSporocilHandler(BaseHandler):
